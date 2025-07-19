@@ -3,17 +3,37 @@ info:
   title: RealTimeChatApp API
   version: 1.0.0
   description: API for the RealTimeChatApp, managing users and chat messages.
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:5001/api  # Replace with your production URL (e.g., https://realtimechatapp.com/api) if applicable
+    description: Local development server  # Update description if changing to production
 paths:
   /api/users:
     get:
       summary: Get all users
+      operationId: getUsers
       responses:
         '200':
           description: Successful response
+        '404':
+          description: Users not found
+      security:
+        - bearerAuth: []
   /api/messages:
     post:
       summary: Send a new message
+      operationId: createMessage
       responses:
         '201':
           description: Message created
-      
+        '400':
+          description: Invalid request
+      security:
+        - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
