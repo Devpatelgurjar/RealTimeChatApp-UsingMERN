@@ -22,10 +22,18 @@ jobs:
       # Step 4: Lint OpenAPI file
       - name: Lint OpenAPI File
         run: redocly lint openapipyaml
-      # Step 5: Deploy to Redocly
+      # Step 5: Debug File Presence
+      - name: Check File
+        run: |
+          ls -la
+          cat openapipyaml
+      # Step 6: Deploy to Redocly
       - name: Push to Redocly
         env:
           REDOCLY_API_KEY: ${{ secrets.AUTO }}
         run: |
           redocly push openapipyaml dev-ziq6t/automation-test \
-          --branch main
+          --branch main \
+          --upsert
+          echo "Push completed with exit code $?"
+  
