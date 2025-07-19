@@ -21,12 +21,12 @@ jobs:
         run: npm install -g @redocly/cli
       # Step 4: Lint OpenAPI file
       - name: Lint OpenAPI File
-        run: redocly lint openapi.yaml
+        run: redocly lint openapipyaml
       # Step 5: Deploy to Redocly
       - name: Push to Redocly
         env:
           REDOCLY_API_KEY: ${{ secrets.AUTO }}
         run: |
-          redocly push openapi.yaml dev-ziq6t/automation-test \
+          redocly push openapipyaml dev-ziq6t/automation-test \
           --api-key $REDOCLY_API_KEY \
           --branch main
