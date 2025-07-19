@@ -1,0 +1,19 @@
+openapi: 3.0.0
+info:
+  title: RealTimeChatApp API
+  version: 1.0.0
+  description: API for the RealTimeChatApp, managing users and chat messages.
+paths:
+  /api/users:
+    get:
+      summary: Get all users
+      responses:
+        '200':
+          description: Successful response
+  /api/messages:
+    post:
+      summary: Send a new message
+      responses:
+        '201':
+          description: Message created
+      
