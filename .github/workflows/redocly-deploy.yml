@@ -28,5 +28,4 @@ jobs:
           REDOCLY_API_KEY: ${{ secrets.AUTO }}
         run: |
           redocly push openapipyaml dev-ziq6t/automation-test \
-          --api-key $REDOCLY_API_KEY \
           --branch main
