@@ -1,0 +1,94 @@
+# name: Deploy RealTimeChatApp API to Redocly
+# description: Automatically deploys API documentation to Redocly when changes are pushed to the main branch.
+# on:
+#   push:
+#     branches:
+#       - 'main'
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: read
+#       statuses: write
+#     steps:
+#       # Step 1: Checkout the repository
+#       - name: Checkout Code
+#         uses: actions/checkout@v4
+#       # Step 2: Set up Node.js
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: '16'
+#       # Step 3: Install Redocly CLI
+#       - name: Install Redocly CLI
+#         run: npm install -g @redocly/cli
+#       # Step 4: Lint OpenAPI file
+#       - name: Lint OpenAPI File
+#         run: redocly lint openapi.yaml
+#       # Step 5: Debug File Presence
+#       - name: Check File
+#         run: |
+#           ls -la
+#           cat openapi.yaml
+#       # Step 6: Deploy to Redocly
+#       - name: Push files and wait for deployment
+#         uses: redocly/reunite-push-action@v1
+#         with:
+#           organization: 'dev-ziq6t'
+#           project: 'automation-test'
+#           mountPath: '/realtimechatapp'
+#           files: 'openapi.yaml'
+#           domain: 'https://app.cloud.redocly.com'
+#           githubToken: {{ secrets.GITHUB_TOKEN }}
+#         env:
+#           REDOCLY_AUTHORIZATION: {{ secrets.REDOC_KEY }}  # Updated to new secret 
+
+
+
+name: Push to Redocly
+description: Automatically deploys API documentation to Redocly when changes are pushed to the main branch.
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      statuses: write
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      # Step 3: Install Redocly CLI
+      - name: Install Redocly CLI
+        run: npm install -g @redocly/cli
+      # Step 4: Lint OpenAPI file
+      - name: Lint OpenAPI File
+        run: redocly lint openapi.yaml
+      # Step 5: Debug File Presence
+      - name: Check File
+        run: |
+          ls -la
+          cat openapi.yaml
+      # Step 6: Deploy to Redocly
+      - name: Push files and wait for deployment
+        uses: redocly/reunite-push-action@v1
+        with:
+          organization: 'dev-ziq6t'
+          project: 'automation-test'
+          mountPath: '/realtimechatapp'  # Matches your app name
+          files: 'openapi.yaml'
+          domain: 'https://app.cloud.redocly.com'
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          REDOCLY_AUTHORIZATION: ${{ secrets.REDOCLY_AUTHORIZATION }}
