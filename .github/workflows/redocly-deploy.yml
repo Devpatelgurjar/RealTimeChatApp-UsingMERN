@@ -1,11 +1,12 @@
-name: Deploy API Docs to Redocly
+name: Deploy RealTimeChatApp API to Redocly
 description: Automatically deploys API documentation to Redocly when changes are pushed to the main branch.
 on:
   push:
     branches:
-      - main
+      - 'main'  # Restrict to main branch
+
 jobs:
-  deploy-to-redocly:
+  deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -34,12 +35,11 @@ jobs:
       - name: Push files and wait for deployment
         uses: redocly/reunite-push-action@v1
         with:
-          organization: dev-ziq6t
-          project: automation-test
-          files: openapi.yaml
-          domain: https://app.cloud.redocly.com
-          mountPath: '/reemote-branch'
-          maxExecutionTime: 1200
-          githubToken: ${{ secrets.GITHUB_TOKEN }}  # Use default GitHub token
+          organization: 'dev-ziq6t'
+          project: 'automation-test'
+          mountPath: '/realtimechatapp'
+          files: 'openapi.yaml'
+          domain: 'https://app.cloud.redocly.com'
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
         env:
-          REDOCLY_AUTHORIZATION: ${{ secrets.REDOCLY_AUTHORIZATION }} 
+          REDOCLY_AUTHORIZATION: ${{ secrets.REDOCLY_AUTHORIZATION }}
