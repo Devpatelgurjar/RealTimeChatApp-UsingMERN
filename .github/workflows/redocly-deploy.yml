@@ -29,14 +29,14 @@ jobs:
       - name: Check File
         run: |
           ls -la
-          cat openapipyaml
+          cat openapi.yaml
       # Step 6: Deploy to Redocly
       - name: Push files and wait for deployment
         uses: redocly/reunite-push-action@v1
         with:
           organization: dev-ziq6t
           project: automation-test
-          files: openapipyaml
+          files: openapi.yaml
           domain: https://app.cloud.redocly.com
           mountPath: '/reemote-branch'
           maxExecutionTime: 1200
