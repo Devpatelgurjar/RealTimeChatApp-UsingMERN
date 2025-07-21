@@ -1,34 +1,45 @@
-name: 'Deploy RealTimeChatApp API to Redocly'
-
+name: Deploy API Docs to Redocly
+description: Automatically deploys API documentation to Redocly when changes are pushed to the main branch.
 on:
   push:
     branches:
-      - 'main'
-
+      - main
 jobs:
-  deploy:
+  deploy-to-redocly:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       statuses: write
     steps:
-      - name: Checkout code
+      # Step 1: Checkout the repository
+      - name: Checkout Code
         uses: actions/checkout@v4
+      # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16'
+      # Step 3: Install Redocly CLI
       - name: Install Redocly CLI
         run: npm install -g @redocly/cli
-      - name: Lint OpenAPI file
+      # Step 4: Lint OpenAPI file
+      - name: Lint OpenAPI File
         run: redocly lint openapipyaml
-      - name: 'Push files and wait for deployment'
+      # Step 5: Debug File Presence
+      - name: Check File
+        run: |
+          ls -la
+          cat openapipyaml
+      # Step 6: Deploy to Redocly
+      - name: Push files and wait for deployment
         uses: redocly/reunite-push-action@v1
         with:
-          organization: 'dev-ziq6t'
-          project: 'automation-test'
-          mountPath: ''  # Remove or correct if Redocly requires a specific path
-          files: 'openapipyaml'  # Specify the OpenAPI file to push
-          domain: 'https://app.cloud.redocly.com'
+          organization: dev-ziq6t
+          project: automation-test
+          files: openapipyaml
+          domain: https://app.cloud.redocly.com
+          mountPath: '/reemote-branch'
+          maxExecutionTime: 1200
+          githubToken: ${{ secrets.GITHUB_TOKEN }}  # Use default GitHub token
         env:
-          REDOCLY_AUTHORIZATION: ${{ secrets.AUTO }}  # Updated to use AUTO secret
+          REDOCLY_AUTHORIZATION: ${{ secrets.AUTO }}  # Ensure this matches your secret
