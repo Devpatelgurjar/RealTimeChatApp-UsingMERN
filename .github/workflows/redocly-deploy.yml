@@ -24,7 +24,7 @@ jobs:
         run: npm install -g @redocly/cli
       # Step 4: Lint OpenAPI file
       - name: Lint OpenAPI File
-        run: redocly lint openapipyaml
+        run: redocly lint openapi.yaml
       # Step 5: Debug File Presence
       - name: Check File
         run: |
