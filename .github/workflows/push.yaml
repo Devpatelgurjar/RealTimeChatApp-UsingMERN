@@ -90,5 +90,6 @@ jobs:
           files: 'openapi.yaml'
           domain: 'https://app.cloud.redocly.com'
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+          maxExecutionTime: 300  # Edited to 10 minutes (600 seconds)
         env:
           REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}
