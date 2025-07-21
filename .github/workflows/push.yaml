@@ -42,7 +42,7 @@ jobs:
           domain: 'https://app.cloud.redocly.com'
           githubToken: ${{ secrets.GITHUB_TOKEN }}
         env:
-          REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}  # Updated to new secret name
+          REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}  # Updated to new secret 
 
 # name: 'Push to Redocly'
 
