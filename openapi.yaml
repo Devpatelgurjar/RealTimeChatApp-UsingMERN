@@ -74,6 +74,60 @@ paths:
                     format: date-time
         '400':
           description: Invalid request
+  /api/status:
+    get:
+      summary: Check server status
+      description: Returns the current status of the server (dummy endpoint for testing).
+      operationId: getStatus
+      responses:
+        '200':
+          description: Server is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "running"
+                  uptime:
+                    type: string
+                    format: date-time
+        '503':
+          description: Server unavailable
+  /api/test:
+    post:
+      summary: Test API endpoint
+      description: A dummy endpoint to test API functionality (returns a test response).
+      operationId: postTest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                testData:
+                  type: string
+                  example: "test123"
+              required:
+                - testData
+      responses:
+        '200':
+          description: Test successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Test received: test123"
+                  timestamp:
+                    type: string
+                    format: date-time
+        '400':
+          description: Invalid test data
 components:
   securitySchemes:
     bearerAuth:
