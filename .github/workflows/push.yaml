@@ -73,10 +73,10 @@ jobs:
         run: |
           ls -la
           cat openapi.yaml
-      # Step 6: Update and Push to Redocly
+      # Step 6: Update realtimechatapp and Deploy
       - name: Update realtimechatapp and Deploy
         env:
-          REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}
+          REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}  # Ensure secret is correctly passed
         run: |
           # Ensure realtimechatapp folder exists and copy updated openapi.yaml
           mkdir -p realtimechatapp
@@ -84,6 +84,6 @@ jobs:
           # Debug the copied file
           ls -la realtimechatapp/
           cat realtimechatapp/openapi.yaml
-          # Push the updated file to Redocly
-          timeout 600 redocly push realtimechatapp/openapi.yaml dev-ziq6t/automation-test --branch rem/cicd/rem_01k0pepcng95tex0b2pareve1r-main --mount-path /realtimechatapp --upsert
+          # Push with updated syntax
+          timeout 600 redocly push realtimechatapp/openapi.yaml --organization dev-ziq6t --destination automation-test --branch rem/cicd/rem_01k0pepcng95tex0b2pareve1r-main --mount-path /realtimechatapp --upsert
           echo "Push completed with exit code $?"
