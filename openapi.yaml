@@ -13,11 +13,11 @@ paths:
   /api/users:
     get:
       summary: Get all users
-      description: Retrieve a list of all registered users.
-      operationId: getUsers
+      description: Retrieve a list of all registered users in the RealTimeChatApp.
+      operationId: getAllUsers
       responses:
         '200':
-          description: Successful response
+          description: Successful response with a list of users
           content:
             application/json:
               schema:
@@ -31,11 +31,11 @@ paths:
                     username:
                       type: string
         '404':
-          description: Users not found
+          description: No users found in the system
   /api/users/{id}:
     get:
       summary: Get user by ID
-      description: Retrieve details of a specific user by their ID.
+      description: Retrieve detailed information for a specific user by their unique ID.
       operationId: getUserById
       parameters:
         - name: id
@@ -44,10 +44,10 @@ paths:
           schema:
             type: string
             format: uuid
-          description: The unique identifier of the user
+          description: The unique identifier of the user to retrieve
       responses:
         '200':
-          description: Successful response
+          description: Successful response with user details
           content:
             application/json:
               schema:
@@ -62,11 +62,11 @@ paths:
                     type: string
                     format: email
         '404':
-          description: User not found
+          description: User with the specified ID not found
   /api/messages:
     post:
       summary: Send a new message
-      description: Create a new chat message.
+      description: Create a new chat message between users in the RealTimeChatApp.
       operationId: createMessage
       requestBody:
         required: true
@@ -78,18 +78,21 @@ paths:
                 senderId:
                   type: string
                   format: uuid
+                  description: The ID of the user sending the message
                 receiverId:
                   type: string
                   format: uuid
+                  description: The ID of the user receiving the message
                 content:
                   type: string
+                  description: The text content of the message
               required:
                 - senderId
                 - receiverId
                 - content
       responses:
         '201':
-          description: Message created
+          description: Message successfully created
           content:
             application/json:
               schema:
@@ -104,23 +107,23 @@ paths:
                     type: string
                     format: date-time
         '400':
-          description: Invalid request
+          description: Invalid request data provided
   /api/messages/{id}:
     get:
       summary: Get message by ID
-      description: Retrieve a specific message by its ID.
+      description: Retrieve a specific message by its unique identifier.
       operationId: getMessageById
       parameters:
         - name: id
-        - in: path
+          in: path
           required: true
           schema:
             type: string
             format: uuid
-          description: The unique identifier of the message
+          description: The unique identifier of the message to retrieve
       responses:
         '200':
-          description: Successful response
+          description: Successful response with message details
           content:
             application/json:
               schema:
@@ -138,15 +141,15 @@ paths:
                     type: string
                     format: date-time
         '404':
-          description: Message not found
+          description: Message with the specified ID not found
   /api/status:
     get:
       summary: Check server status
-      description: Returns the current status of the server (dummy endpoint for testing).
+      description: Returns the current operational status of the RealTimeChatApp server.
       operationId: getStatus
       responses:
         '200':
-          description: Server is running
+          description: Server is running successfully
           content:
             application/json:
               schema:
@@ -159,11 +162,45 @@ paths:
                     type: string
                     format: date-time
         '503':
-          description: Server unavailable
+          description: Server is currently unavailable
+  /api/test:
+    post:
+      summary: Test API endpoint
+      description: A dummy endpoint for testing API functionality within RealTimeChatApp.
+      operationId: postTest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                testData:
+                  type: string
+                  example: "test123"
+                  description: Sample data for testing purposes
+              required:
+                - testData
+      responses:
+        '200':
+          description: Test operation completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Test received: test123"
+                  timestamp:
+                    type: string
+                    format: date-time
+        '400':
+          description: Invalid test data provided
   /api/chatrooms:
     post:
       summary: Create a new chat room
-      description: Creates a new chat room for users to communicate.
+      description: Creates a new chat room for users to communicate within RealTimeChatApp.
       operationId: createChatRoom
       requestBody:
         required: true
@@ -174,17 +211,19 @@ paths:
               properties:
                 name:
                   type: string
+                  description: The name of the chat room
                 userIds:
                   type: array
                   items:
                     type: string
                     format: uuid
+                    description: List of user IDs to include in the chat room
               required:
                 - name
                 - userIds
       responses:
         '201':
-          description: Chat room created
+          description: Chat room successfully created
           content:
             application/json:
               schema:
@@ -199,7 +238,7 @@ paths:
                     type: string
                     format: date-time
         '400':
-          description: Invalid request
+          description: Invalid chat room data provided
 components:
   securitySchemes:
     bearerAuth:
