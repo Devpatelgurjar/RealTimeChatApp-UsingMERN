@@ -32,6 +32,37 @@ paths:
                       type: string
         '404':
           description: Users not found
+  /api/users/{id}:
+    get:
+      summary: Get user by ID
+      description: Retrieve details of a specific user by their ID.
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the user
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  username:
+                    type: string
+                  email:
+                    type: string
+                    format: email
+        '404':
+          description: User not found
   /api/messages:
     post:
       summary: Send a new message
@@ -74,6 +105,40 @@ paths:
                     format: date-time
         '400':
           description: Invalid request
+  /api/messages/{id}:
+    get:
+      summary: Get message by ID
+      description: Retrieve a specific message by its ID.
+      operationId: getMessageById
+      parameters:
+        - name: id
+        - in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the message
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  senderId:
+                    type: string
+                    format: uuid
+                  content:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+        '404':
+          description: Message not found
   /api/status:
     get:
       summary: Check server status
@@ -128,6 +193,46 @@ paths:
                     format: date-time
         '400':
           description: Invalid test data
+  /api/chatrooms:
+    post:
+      summary: Create a new chat room
+      description: Creates a new chat room for users to communicate.
+      operationId: createChatRoom
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                userIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+              required:
+                - name
+                - userIds
+      responses:
+        '201':
+          description: Chat room created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  name:
+                    type: string
+                  createdAt:
+                    type: string
+                    format: date-time
+        '400':
+          description: Invalid request
 components:
   securitySchemes:
     bearerAuth:
