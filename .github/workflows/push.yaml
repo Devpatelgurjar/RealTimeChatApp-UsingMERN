@@ -37,8 +37,59 @@
 #           echo "Push completed with exit code $?"
 
 
-name: Push to Redocly
-description: Updates and deploys API documentation from realtimechatapp folder.
+# name: Push to Redocly
+# description: Updates and deploys API documentation from realtimechatapp folder.
+
+# on:
+#   push:
+#     branches:
+#       - 'main'
+
+# jobs:
+#   push:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: read
+#       statuses: write
+#     timeout-minutes: 10
+#     steps:
+#       # Step 1: Checkout the repository
+#       - name: Checkout Code
+#         uses: actions/checkout@v4
+#       # Step 2: Set up Node.js
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: '16'
+#       # Step 3: Install Redocly CLI
+#       - name: Install Redocly CLI
+#         run: npm install -g @redocly/cli
+#       # Step 4: Lint OpenAPI file
+#       - name: Lint OpenAPI File
+#         run: redocly lint openapi.yaml || echo "Linting skipped"
+#         continue-on-error: true
+#       # Step 5: Debug File Presence
+#       - name: Check File
+#         run: |
+#           ls -la
+#           cat openapi.yaml
+#       # Step 6: Update realtimechatapp and Deploy
+#       - name: Update realtimechatapp and Deploy
+#         env:
+#           REDOCLY_AUTHORIZATION: {{ secrets.REDOC_KEY }}  # Ensure secret is correctly passed
+#         run: |
+#           # Ensure realtimechatapp folder exists and copy updated openapi.yaml
+#           mkdir -p realtimechatapp
+#           cp openapi.yaml realtimechatapp/openapi.yaml
+#           # Debug the copied file
+#           ls -la realtimechatapp/
+#           cat realtimechatapp/openapi.yaml
+#           # Push with updated syntax
+#           timeout 600 redocly push realtimechatapp/openapi.yaml --organization dev-ziq6t --destination automation-test --branch rem/cicd/rem_01k0pepcng95tex0b2pareve1r-main --mount-path /realtimechatapp --upsert
+#           echo "Push completed with exit code $?"
+
+
+name: 'Push to Redocly'
 
 on:
   push:
@@ -51,39 +102,16 @@ jobs:
     permissions:
       contents: read
       statuses: write
-    timeout-minutes: 10
     steps:
-      # Step 1: Checkout the repository
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
-      # Step 2: Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: 'Push files and wait for deployment'
+        uses: redocly/reunite-push-action@v1
         with:
-          node-version: '16'
-      # Step 3: Install Redocly CLI
-      - name: Install Redocly CLI
-        run: npm install -g @redocly/cli
-      # Step 4: Lint OpenAPI file
-      - name: Lint OpenAPI File
-        run: redocly lint openapi.yaml || echo "Linting skipped"
-        continue-on-error: true
-      # Step 5: Debug File Presence
-      - name: Check File
-        run: |
-          ls -la
-          cat openapi.yaml
-      # Step 6: Update realtimechatapp and Deploy
-      - name: Update realtimechatapp and Deploy
+          organization: 'dev-ziq6t'
+          project: 'automation-test'
+          mountPath: '/realtimechatapp/rtc'
+          files: 'openapi.yaml'
+          domain: 'https://app.cloud.redocly.com'
         env:
-          REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}  # Ensure secret is correctly passed
-        run: |
-          # Ensure realtimechatapp folder exists and copy updated openapi.yaml
-          mkdir -p realtimechatapp
-          cp openapi.yaml realtimechatapp/openapi.yaml
-          # Debug the copied file
-          ls -la realtimechatapp/
-          cat realtimechatapp/openapi.yaml
-          # Push with updated syntax
-          timeout 600 redocly push realtimechatapp/openapi.yaml --organization dev-ziq6t --destination automation-test --branch rem/cicd/rem_01k0pepcng95tex0b2pareve1r-main --mount-path /realtimechatapp --upsert
-          echo "Push completed with exit code $?"
+          REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}
