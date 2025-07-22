@@ -81,5 +81,5 @@ jobs:
           # Copy files to a docs folder if needed
           mkdir -p docs
           cp openapi.yaml docs/
-          timeout 600 redocly push docs/openapi.yaml dev-ziq6t/automation-test --branch main --mount-path /realtimechatapp --upsert
+          timeout 600 redocly push openapi.yaml dev-ziq6t/automation-test --branch rem/url/rem_01k0p8ynyz32ce4wf16tcym4yz --mount-path /realtimechatapp --upsert
           echo "Push completed with exit code $?"
