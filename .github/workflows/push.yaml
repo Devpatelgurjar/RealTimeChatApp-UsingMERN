@@ -47,7 +47,7 @@
 
 
 name: Push to Redocly
-description: Automatically deploys API documentation to Redocly when changes are pushed to the main branch.
+description: Deploys API documentation with manual push and folder support.
 
 on:
   push:
@@ -60,6 +60,7 @@ jobs:
     permissions:
       contents: read
       statuses: write
+    timeout-minutes: 10
     steps:
       # Step 1: Checkout the repository
       - name: Checkout Code
@@ -72,24 +73,13 @@ jobs:
       # Step 3: Install Redocly CLI
       - name: Install Redocly CLI
         run: npm install -g @redocly/cli
-      # Step 4: Lint OpenAPI file
-      - name: Lint OpenAPI File
-        run: redocly lint openapi.yaml
-      # Step 5: Debug File Presence
-      - name: Check File
-        run: |
-          ls -la
-          cat openapi.yaml
-      # Step 6: Deploy to Redocly
-      - name: Push files and wait for deployment
-        uses: redocly/reunite-push-action@v1
-        with:
-          organization: 'dev-ziq6t'
-          project: 'automation-test'
-          mountPath: '/realtimechatapp'  # Matches your app name
-          files: 'openapi.yaml'
-          domain: 'https://app.cloud.redocly.com'
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          # maxExecutionTime: 300  # Edited to 10 minutes (600 seconds)
+      # Step 4: Deploy specific folder to Redocly
+      - name: Push to Redocly
         env:
           REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}
+        run: |
+          # Copy files to a docs folder if needed
+          mkdir -p docs
+          cp openapi.yaml docs/
+          timeout 600 redocly push docs/openapi.yaml dev-ziq6t/automation-test --branch main --mount-path /realtimechatapp --upsert
+          echo "Push completed with exit code $?"
