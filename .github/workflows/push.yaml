@@ -111,8 +111,8 @@ jobs:
           organization: 'dev-ziq6t'
           project: 'automation-test'
           mountPath: '/realtimechatapp/rtc'
-          ignoreLinkChecker: 'true'
           files: 'openapi.yaml'
+          ignoreLinkChecker: 'true'
           domain: 'https://app.cloud.redocly.com'
         env:
           REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}
