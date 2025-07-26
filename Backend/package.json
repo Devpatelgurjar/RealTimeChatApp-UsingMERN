@@ -30,5 +30,8 @@
     "swagger-ui-express": "^5.0.1",
     "yaml": "^2.8.0",
     "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "@redocly/cli": "^2.0.1"
   }
 }
