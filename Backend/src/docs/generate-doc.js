@@ -2,6 +2,7 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import fs from 'fs';
 import path from 'path';
+import yaml from 'yaml';
 import { fileURLToPath } from 'url';
 
 // Fix __dirname in ES Modules
@@ -34,16 +35,4 @@ const options = {
     },
     security: [{ bearerAuth: [] }],
   },
-  apis: [path.join(__dirname, '../../routes/**/*.js')], // Update this path
-};
-
-// Generate spec
-const swaggerSpec = swaggerJSDoc(options);
-
-// Write to openapi.yaml in root
-fs.writeFileSync(
-  path.join(__dirname, '../../../openapi.yaml'),
-  JSON.stringify(swaggerSpec, null, 2)
-);
-
-console.log('✅ openapi.yaml generated successfully');
+  apis: [path.join(__dirname, '../../routes/**/*.js')], 
