@@ -63,7 +63,7 @@ jobs:
           organization: 'dev-ziq6t'
           project: 'automation-test'
           mountPath: '/realtimechatapp/rtc'
-          files: 'openapi.yaml'
+          files: 'Backend/openapi.yaml'
           ignoreLinkChecker: 'true'
           domain: 'https://app.cloud.redocly.com'
         env:

@@ -1,27 +1,28 @@
-// Backend/src/doc/generate-docs.js
-import swaggerJSDoc from 'swagger-jsdoc';
+// Backend/src/docs/generate-doc.js
 import fs from 'fs';
 import path from 'path';
 import yaml from 'yaml';
+import swaggerJSDoc from 'swagger-jsdoc';
 import { fileURLToPath } from 'url';
 
-// Fix __dirname in ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Swagger options
+// ✅ Correct path to your route files (Update this to your actual route location)
+const routesPath = path.join(__dirname, '../routes/**/*.js');  // If routes are in src/routes
+
 const options = {
   definition: {
     openapi: '3.1.0',
     info: {
-      title: 'Your API Title',
+      title: 'Real-Time Chat API',
       version: '1.0.0',
-      description: 'API Documentation',
+      description: 'This is the API documentation for your Real-Time Chat App.',
     },
     servers: [
       {
         url: 'http://localhost:5000/api',
-        description: 'Local server',
+        description: 'Local development server',
       },
     ],
     components: {
@@ -35,5 +36,12 @@ const options = {
     },
     security: [{ bearerAuth: [] }],
   },
-  apis: [path.join(__dirname, '../../routes/**/*.js')], 
-}
+  apis: [routesPath], // ✅ Fixed path
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+const yamlStr = yaml.stringify(swaggerSpec);
+
+// ✅ Save to correct file (inside Backend folder)
+fs.writeFileSync(path.join(__dirname, '../../openapi.yaml'), yamlStr, 'utf8');
+console.log('✅ Swagger YAML generated at in backend (openapi.yaml)');
