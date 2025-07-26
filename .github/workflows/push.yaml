@@ -52,6 +52,6 @@ jobs:
           maxExecutionTime: 1200
           githubToken: ${{ secrets.GITHUB_TOKEN }}
         env:
-          REDOCLY_AUTHORIZATION: ${{ secrets.REDOCLY_AUTHORIZATION }}
+          REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}
 
 
