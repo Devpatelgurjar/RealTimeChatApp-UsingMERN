@@ -55,7 +55,7 @@ jobs:
         run: npm ci
 
       - name: Generate OpenAPI spec
-        run: node Backend/src/doc/generate-docs.js
+        run: node Backend/src/doc/generate-doc.js
 
       - name: 'Push files and wait for deployment'
         uses: redocly/reunite-push-action@v1
