@@ -66,7 +66,6 @@ jobs:
           project: 'automation-test'              # ✅ correct project
           mountPath: '/realtimechatapp/rtc-2'     # ✅ your custom path
           files: 'Backend/openapi.yaml'           # ✅ file location
-          ignoreLinkChecker: 'true'
           domain: 'https://app.cloud.redocly.com'
         env:
           REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}  # ✅ secret key
