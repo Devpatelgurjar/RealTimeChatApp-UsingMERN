@@ -1,55 +1,55 @@
-# name: 'Push to Redocly'
-
-# on:
-#   push:
-#     branches:
-#       - 'main'
-
-# jobs:
-#   push:
-#     runs-on: ubuntu-latest
-#     permissions:
-#       contents: read
-#       statuses: write
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v4
-#       - name: 'Push files and wait for deployment'
-#         uses: redocly/reunite-push-action@v1
-#         with:
-#           organization: 'dev-ziq6t'
-#           project: 'automation-test'
-#           mountPath: '/realtimechatapp/rtc'
-#           files: 'openapi.yaml'
-#           ignoreLinkChecker: 'true'
-#           domain: 'https://app.cloud.redocly.com'
-#         env:
-#           REDOCLY_AUTHORIZATION: {{ secrets.REDOC_KEY }}
-
-
-
-name: Push OpenAPI Docs
+name: 'Push to Redocly'
 
 on:
   push:
-     branches:
-        - 'main'
+    branches:
+      - 'main'
 
 jobs:
-  push-to-redocly:
+  push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      statuses: write
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Push OpenAPI to Redocly
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: 'Push files and wait for deployment'
         uses: redocly/reunite-push-action@v1
         with:
-          organization: dev-ziq6t
-          project: automation-test
-          mountPath: /realtimechatapp/rtc-2
-          files: Backend/openapi.yaml
-          domain: https://app.cloud.redocly.com
+          organization: 'dev-ziq6t'
+          project: 'automation-test'
+          mountPath: '/realtimechatapp/rtc'
+          files: 'Backend/openapi.yaml'
+          ignoreLinkChecker: 'true'
+          domain: 'https://app.cloud.redocly.com'
         env:
           REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}
+
+
+
+# name: Push OpenAPI Docs
+
+# on:
+#   push:
+#      branches:
+#         - 'main'
+
+# jobs:
+#   push-to-redocly:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+
+#       - name: Push OpenAPI to Redocly
+#         uses: redocly/reunite-push-action@v1
+#         with:
+#           organization: dev-ziq6t
+#           project: automation-test
+#           mountPath: /realtimechatapp/rtc-2
+#           files: Backend/openapi.yaml
+#           domain: https://app.cloud.redocly.com
+#         env:
+#           REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}
 
 
