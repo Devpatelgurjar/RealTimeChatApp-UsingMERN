@@ -27,28 +27,5 @@ jobs:
           REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}
 
 
-# name: Push OpenAPI Docs
-
-# on:
-#   push:
-#      branches:
-#         - 'main'
-
-# jobs:
-#   push-to-redocly:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v3
-
-#       - name: Push OpenAPI to Redocly
-#         uses: redocly/reunite-push-action@v1
-#         with:
-#           organization: dev-ziq6t
-#           project: automation-test
 #           mountPath: /realtimechatapp/rtc-2
 #           files: Backend/openapi.yaml
-#           domain: https://app.cloud.redocly.com
-#         env:
-#           REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}
-
-
