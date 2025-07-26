@@ -1,15 +1,11 @@
-// Backend/src/doc/generate-docs.js
 import swaggerJSDoc from 'swagger-jsdoc';
 import fs from 'fs';
 import path from 'path';
-import yaml from 'yaml';
 import { fileURLToPath } from 'url';
 
-// Fix __dirname in ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Swagger options
 const options = {
   definition: {
     openapi: '3.1.0',
@@ -35,4 +31,14 @@ const options = {
     },
     security: [{ bearerAuth: [] }],
   },
-  apis: [path.join(__dirname, '../../routes/**/*.js')], 
+  apis: [path.join(__dirname, '../../routes/**/*.js')],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+
+fs.writeFileSync(
+  path.join(__dirname, '../../../openapi.yaml'),
+  JSON.stringify(swaggerSpec, null, 2)
+); // ✅ THIS closing parenthesis was missing
+
+console.log('✅ openapi.yaml generated successfully');

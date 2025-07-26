@@ -1,249 +1,30 @@
-openapi: 3.1.0
-info:
-  title: RealTimeChatApp API
-  description: API for the RealTimeChatApp, managing users and chat messages in real-time.
-  version: 1.0.0
-  license:
-    name: MIT
-    url: "https://opensource.org/license/mit/"
-servers:
-  - url: http://localhost:5000/api  # Replace with your production URL (e.g., https://realtimechatapp.com/api) if deployed
-    description: Local development server
-paths:
-  /api/users:
-    get:
-      summary: Get all users
-      description: Retrieve a list of all registered users in the RealTimeChatApp.
-      operationId: getAllUsers
-      responses:
-        '200':
-          description: Successful response with a list of users
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      format: uuid
-                    username:
-                      type: string
-        '404':
-          description: No users found in the system
-  /api/users/{id}:
-    get:
-      summary: Get user by ID
-      description: Retrieve detailed information for a specific user by their unique ID.
-      operationId: getUserById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: The unique identifier of the user to retrieve
-      responses:
-        '200':
-          description: Successful response with user details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                  username:
-                    type: string
-                  email:
-                    type: string
-                    format: email
-        '404':
-          description: User with the specified ID not found
-  /api/messages:
-    post:
-      summary: Send a new message
-      description: Create a new chat message between users in the RealTimeChatApp.
-      operationId: createMessage
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                senderId:
-                  type: string
-                  format: uuid
-                  description: The ID of the user sending the message
-                receiverId:
-                  type: string
-                  format: uuid
-                  description: The ID of the user receiving the message
-                content:
-                  type: string
-                  description: The text content of the message
-              required:
-                - senderId
-                - receiverId
-                - content
-      responses:
-        '201':
-          description: Message successfully created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                  content:
-                    type: string
-                  timestamp:
-                    type: string
-                    format: date-time
-        '400':
-          description: Invalid request data provided
-  /api/messages/{id}:
-    get:
-      summary: Get message by ID
-      description: Retrieve a specific message by its unique identifier.
-      operationId: getMessageById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: The unique identifier of the message to retrieve
-      responses:
-        '200':
-          description: Successful response with message details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                  senderId:
-                    type: string
-                    format: uuid
-                  content:
-                    type: string
-                  timestamp:
-                    type: string
-                    format: date-time
-        '404':
-          description: Message with the specified ID not found
-  /api/status:
-    get:
-      summary: Check server status
-      description: Returns the current operational status of the RealTimeChatApp server.
-      operationId: getStatus
-      responses:
-        '200':
-          description: Server is running successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: "running"
-                  uptime:
-                    type: string
-                    format: date-time
-        '503':
-          description: Server is currently unavailable
-  /api/test:
-    post:
-      summary: Test API endpoint
-      description: A dummy endpoint for testing API functionality within RealTimeChatApp.
-      operationId: postTest
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                testData:
-                  type: string
-                  example: "test123"
-                  description: Sample data for testing purposes
-              required:
-                - testData
-      responses:
-        '200':
-          description: Test operation completed successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Test received: test123"
-                  timestamp:
-                    type: string
-                    format: date-time
-        '400':
-          description: Invalid test data provided
-  /api/chatrooms:
-    post:
-      summary: Create a new chat room
-      description: Creates a new chat room for users to communicate within RealTimeChatApp.
-      operationId: createChatRoom
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: The name of the chat room
-                userIds:
-                  type: array
-                  items:
-                    type: string
-                    format: uuid
-                    description: List of user IDs to include in the chat room
-              required:
-                - name
-                - userIds
-      responses:
-        '201':
-          description: Chat room successfully created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                  name:
-                    type: string
-                  createdAt:
-                    type: string
-                    format: date-time
-        '400':
-          description: Invalid chat room data provided
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-security:
-  - bearerAuth: []
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Your API Title",
+    "version": "1.0.0",
+    "description": "API Documentation"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000/api",
+      "description": "Local server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {},
+  "tags": []
+}
