@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
-    "generate-docs": "node src/docs/generate-doc.js"
+    "generate-docs": "node src/docs/generate-doc.js && mv openapi.yaml ../openapi.yaml",
+    "lint:openapi": "redocly lint Backend/openapi.yaml",
+    "build:openapi": "redocly build-docs Backend/openapi.yaml -o docs/index.html"
   },
   "keywords": [],
   "author": "",

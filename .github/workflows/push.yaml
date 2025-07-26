@@ -20,12 +20,11 @@ jobs:
           organization: 'dev-ziq6t'
           project: 'automation-test'
           mountPath: '/realtimechatapp/rtc'
-          files: 'Backend/openapi.yaml'
           ignoreLinkChecker: 'true'
+          files: 'openapi.yaml'
           domain: 'https://app.cloud.redocly.com'
         env:
           REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}
-
 
 
 # name: Push OpenAPI Docs
