@@ -28,7 +28,6 @@
 
 
 
-
 name: 'Push to Redocly'
 
 on:
@@ -52,10 +51,7 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies
-        run: npm install  # Installs root-level dependencies
-
-      - name: Install dependencies in Backend
+      - name: Install Backend dependencies
         run: npm install
         working-directory: ./Backend
 
@@ -63,17 +59,15 @@ jobs:
         run: npm run generate-docs
         working-directory: ./Backend
 
-      - name: Move openapi.yaml to root
-        run: mv Backend/openapi.yaml ./openapi.yaml
-
-      - name: 'Push files and wait for deployment'
+      - name: 'Push OpenAPI to Redocly'
         uses: redocly/reunite-push-action@v1
         with:
-          organization: 'dev-ziq6t'
-          project: 'automation-test'
-          mountPath: '/realtimechatapp/rtc'
-          files: 'openapi.yaml'
+          organization: 'dev-ziq6t'               # ✅ correct org
+          project: 'automation-test'              # ✅ correct project
+          mountPath: '/realtimechatapp/rtc-2'     # ✅ your custom path
+          files: 'Backend/openapi.yaml'           # ✅ file location
           ignoreLinkChecker: 'true'
           domain: 'https://app.cloud.redocly.com'
         env:
-          REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}
+          REDOCLY_AUTHORIZATION: ${{ secrets.REDOC_KEY }}  # ✅ secret key
+
