@@ -7,6 +7,13 @@ import connectDB from './lib/DB.js';
 import cookieparser from "cookie-parser"
 import cors from "cors"
 import { app,server } from './lib/socket.js';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import swaggerJsdoc from 'swagger-jsdoc';
+import { swaggerSpec } from './docs/swaggerOptions.js';
+
+// import path from 'path';
+
 
 dotenv.config(); 
 // const app = express();
@@ -22,6 +29,14 @@ app.use(cors({
     credentials: true,
 }));
  
+
+// ✅ Load YAML file
+// const swaggerDocument = YAML.load(path.join(__dirname, '../openapi.yaml'));
+
+// ✅ Serve Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
 //routes  
 app.use('/api/v1/user',Auth); 
 app.use('/api/v1/message',messageRoutes);

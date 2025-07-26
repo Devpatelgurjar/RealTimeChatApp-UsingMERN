@@ -4,10 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-   "build":"npm install --prefix Backend && npm install --prefix Frontend && npm run build --prefix Frontend",
-   "start":"npm run start --prefix Backend "
+    "build": "npm install --prefix Backend && npm install --prefix Frontend && npm run build --prefix Frontend",
+    "start": "npm run start --prefix Backend "
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
+  }
 }
