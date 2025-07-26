@@ -32,8 +32,8 @@ name: Push OpenAPI Docs
 
 on:
   push:
-    paths:
-      - 'Backend/openapi.yaml'
+     branches:
+        - 'main'
 
 jobs:
   push-to-redocly:
