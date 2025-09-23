@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 import { useChatStore } from "../store/useChatStore";
 import { useEffect, useRef } from "react";
-import { Trash2 } from 'lucide-react';
+import { Trash2 } from "lucide-react";
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import MessageSkeleton from "./skeletons/MessageSkeleton";
@@ -16,7 +16,7 @@ const ChatContainer = () => {
     selectedUser,
     deleteMessage,
     subscribeToMessages,
-    unsubscribeFromMessages
+    unsubscribeFromMessages,
   } = useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
@@ -27,7 +27,13 @@ const ChatContainer = () => {
     subscribeToMessages();
 
     return () => unsubscribeFromMessages();
-  }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages,deleteMessage]);
+  }, [
+    selectedUser._id,
+    getMessages,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+    deleteMessage,
+  ]);
 
   useEffect(() => {
     if (messageEndRef.current && messages) {
@@ -35,12 +41,12 @@ const ChatContainer = () => {
     }
   }, [messages]);
 
-  const handleDeleteMessage = async(messageId) => {
+  const handleDeleteMessage = async (messageId) => {
     const res = await deleteMessage(messageId);
     getMessages(selectedUser._id);
-    console.log(messageId)
-    console.log(messages)
-  }
+    console.log(messageId);
+    console.log(messages);
+  };
 
   if (isMessagesLoading) {
     return (
@@ -60,7 +66,9 @@ const ChatContainer = () => {
         {messages.map((message) => (
           <div
             key={message._id}
-            className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
+            className={`chat ${
+              message.senderId === authUser._id ? "chat-end" : "chat-start"
+            }`}
             ref={messageEndRef}
           >
             <div className=" chat-image avatar">
@@ -80,22 +88,29 @@ const ChatContainer = () => {
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
-            <div className={`flex ${message.senderId === authUser._id ? "flex-row-reverse" : ""} justify-center items-center`}>
-            <div className="chat-bubble flex flex-col">
-              {message.image && (
-                <img
-                  src={message.image}
-                  alt="Attachment"
-                  className="sm:max-w-[200px] rounded-md mb-2"
-                />
-              )}
-              {message.text && <p className="max-w-full sm:max-w-[400px] md:max-w-[500px] lg:max-w-[600px] break-words">
-                {message.text}
-              </p>
-               }
-               
-            </div>
-              <Trash2 className='inline-block' onClick={() => handleDeleteMessage(message._id)}></Trash2>
+            <div
+              className={`flex ${
+                message.senderId === authUser._id ? "flex-row-reverse" : ""
+              } justify-center items-center`}
+            >
+              <div className="chat-bubble flex flex-col">
+                {message.image && (
+                  <img
+                    src={message.image}
+                    alt="Attachment"
+                    className="sm:max-w-[200px] rounded-md mb-2"
+                  />
+                )}
+                {message.text && (
+                  <p className="max-w-full sm:max-w-[400px] md:max-w-[500px] lg:max-w-[600px] break-words">
+                    {message.text}
+                  </p>
+                )}
+              </div>
+              <Trash2
+                className="inline-block"
+                onClick={() => handleDeleteMessage(message._id)}
+              ></Trash2>
             </div>
           </div>
         ))}
