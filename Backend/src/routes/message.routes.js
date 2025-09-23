@@ -1,11 +1,11 @@
-import express from 'express';
+import express from "express";
 import {
   getUsersForSlidebar,
   getMessages,
   sendMessage,
-  deleteMessage
-} from '../controllers/message.controller.js';
-import protectRoute from '../middleware/protectRoute.js';
+  deleteMessage,
+} from "../controllers/message.controller.js";
+import protectRoute from "../middleware/protectRoute.js";
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ const router = express.Router();
  *       401:
  *         description: Unauthorized
  */
-router.get('/users', protectRoute, getUsersForSlidebar);
+router.get("/users", protectRoute, getUsersForSlidebar);
 
 /**
  * @swagger
@@ -48,7 +48,7 @@ router.get('/users', protectRoute, getUsersForSlidebar);
  *       401:
  *         description: Unauthorized
  */
-router.get('/:id', protectRoute, getMessages);
+router.get("/:id", protectRoute, getMessages);
 
 /**
  * @swagger
@@ -84,7 +84,7 @@ router.get('/:id', protectRoute, getMessages);
  *       401:
  *         description: Unauthorized
  */
-router.post('/send/:id', protectRoute, sendMessage);
+router.post("/send/:id", protectRoute, sendMessage);
 
 /**
  * @swagger
@@ -113,6 +113,6 @@ router.post('/send/:id', protectRoute, sendMessage);
  *       401:
  *         description: Unauthorized
  */
-router.delete('/delete', protectRoute, deleteMessage);
+router.delete("/delete/:id", protectRoute, deleteMessage);
 
 export default router;

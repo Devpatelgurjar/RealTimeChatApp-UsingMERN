@@ -48,23 +48,63 @@ export const useChatStore = create((set, get) => {
       }
     },
 
+    // deleteMessage: async (messageId) => {
+    //   const { messages } = get();
+    //   try {
+    //     const res = await axiosInstance.delete(`/message/delete`, {
+    //       data: { messageId },
+    //     });
+    //     console.log(res);
+    //     set((state) => ({
+    //       messages: state.messages.filter(
+    //         (message) => message.id !== messageId
+    //       ),
+    //     }));
+    //   } catch (error) {
+    //     toast.error(error.response.data.message);
+    //   }
+    // },
+
+    // subscribeToMessages: () => {
+    //   const { selectedUser } = get();
+    //   if (!selectedUser) return;
+
+    //   const sockat = useAuthStore.getState().socket;
+
+    //   sockat.on("newMessage", (newMessage) => {
+    //     const isMessageSentFromSelectedUser =
+    //       newMessage.senderId === selectedUser._id;
+    //     if (!isMessageSentFromSelectedUser) return;
+
+    //     set({
+    //       messages: [...get().messages, newMessage],
+    //     });
+    //   });
+    // },
+
+    // Delete message API call
     deleteMessage: async (messageId) => {
-      const { messages } = get();
+      const { selectedUser, messages } = get();
       try {
-        const res = await axiosInstance.delete(`/message/delete`, {
-          data: { messageId },
-        });
+        const res = await axiosInstance.delete(
+          `/message/delete/${selectedUser._id}`,
+          { data: { messageId } }
+        );
         console.log(res);
         set((state) => ({
           messages: state.messages.filter(
-            (message) => message.id !== messageId
-          ),
+            (message) => message._id !== messageId
+          ), // Use _id matching with DB IDs
         }));
       } catch (error) {
-        toast.error(error.response.data.message);
+        console.log(error);
+        toast.error(
+          error.response?.data?.message || "Failed to delete message"
+        );
       }
     },
 
+    // Subscribe to socket events for messages
     subscribeToMessages: () => {
       const { selectedUser } = get();
       if (!selectedUser) return;
@@ -79,6 +119,15 @@ export const useChatStore = create((set, get) => {
         set({
           messages: [...get().messages, newMessage],
         });
+      });
+
+      // Listen for message deletion via socket event
+      sockat.on("DelMessage", ({ messageId }) => {
+        set((state) => ({
+          messages: state.messages.filter(
+            (message) => message._id !== messageId
+          ),
+        }));
       });
     },
 

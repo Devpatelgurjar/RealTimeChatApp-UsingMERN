@@ -43,9 +43,9 @@ const ChatContainer = () => {
 
   const handleDeleteMessage = async (messageId) => {
     const res = await deleteMessage(messageId);
-    getMessages(selectedUser._id);
-    console.log(messageId);
-    console.log(messages);
+    // getMessages(selectedUser._id);
+    // console.log(messageId);
+    // console.log(messages);
   };
 
   if (isMessagesLoading) {
